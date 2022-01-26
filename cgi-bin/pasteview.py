@@ -11,6 +11,7 @@ import urllib.error as ue
 import urllib.request as ur
 
 translateLanguage = {
+        'assembly': 'asm',
         'clike': 'c',
         'htmlmixed': 'html',
         'jinja2': 'jinja'
@@ -28,6 +29,11 @@ def printPaste(resp,rid=None):
         print('\t<h2>Deactivate Paste</h2>')
         print('\t<p>Are you sure that you want to deactivate this paste?</p>')
         print('\t<a class="button" href="https://paste.aosc.io/deactivate-confirm/'+resp['paste_id_repr']+'/'+rid+'"><button type="button">Yes</button></a><a class="button" href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'"><button type="button" >No</button></a>\n</div>')
+    if 'deactivation_token' in resp:
+        print('<div id="pasteurl">')
+        print('\t<h2>Paste URL</h2>')
+        print('\t<a href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'">https://paste.aosc.io/paste/'+resp['paste_id_repr']+'</a>')
+        print('</div>')
     if 'attachments' in resp and resp['attachments']:
         print('<div id="attach">')
         print('\t<h2>Attachments</h2>')
@@ -58,8 +64,6 @@ def printPaste(resp,rid=None):
         print('\t<h2>Deactivation Key</h2>')
         print('\t<p>The paste deactivation URL is shown below. Make sure to keep it somewhere safe; this is the only time you\'ll see it!</p>')
         print('\t<p><a href="https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'">https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'</a></p>')
-        print('\t<h2>Paste URL</h2>')
-        print('\t<a href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'">https://paste.aosc.io/paste/'+resp['paste_id_repr']+'</a>')
         print('</div>')
         print('<!-- FOR CLI Users:')
         print('Deactivation Page: https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token'])
