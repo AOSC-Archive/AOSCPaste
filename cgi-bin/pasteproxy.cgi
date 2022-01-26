@@ -6,8 +6,9 @@ import datetime
 import json
 import mimetypes
 import pasteview
-import urllib.request as ur
+import urllib.error as ue
 import urllib.parse as up
+import urllib.request as ur
 
 template_head = pasteview.template_head
 template_tail = pasteview.template_tail
@@ -98,12 +99,13 @@ def main():
     req.add_header('Content-Type','application/json')
     try:
         resp = ur.urlopen(req).read().decode('UTF-8')
-    except ue.HTTPError:
+    except ue.HTTPError as e:
         print('Status: 502')
         print('Content-Type: text/html; charset=UTF-8\n')
         print(template_head)
         print("<h1>Paste API Error</h1>")
         print("<p>The AOSC Pastebin service seems to be unavailable now. Please try again later or contact AOSC Infra for more help.</p>")
+        print("<pre>",e,"</pre>")
         print(template_tail)
         exit()
     resp = json.loads(resp)

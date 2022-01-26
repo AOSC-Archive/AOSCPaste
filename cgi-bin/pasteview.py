@@ -17,7 +17,7 @@ translateLanguage = {
         }
 
 template_head = '<!DOCTYPE html>\n<html lang="en-us">\n<head>\n\t<meta name="generator" content="Hugo 0.68.3" />\n\t<meta charset="utf-8" />\n\t<meta http-equiv="X-UA-Compatible" content="IE=edge" />\n\t<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=7" />\n    <link href="https://aosc.io/css/main.min.css" rel="stylesheet" />\n    <link href="https://paste.aosc.io/pastebin.css" rel="stylesheet" />\n    <title>Pastebin | AOSC Pastebin</title>\n    <link rel="icon" href="https://aosc.io/img/aosc.png" />\n    <link rel="icon" sizes="any" type="image/svg+xml" href="https://aosc.io/img/aosc.min.svg" />\n\t<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet" />\n\t<style>body{font-family:\'Noto Serif SC\',serif;}</style>\n<link rel="stylesheet" href="https://paste.aosc.io/highlight.css" />\n</head>\n\n<body>\n\t<div class="wrapper">\n\t\t<nav class="header">\n\t\t\t<div class="columns" style="align-items: start;">\n\t\t\t\t<div class="columns" style="display: flex;">\n                    <a class="clear-link" href="https://aosc.io/">\n                        <table>\n                            <tbody>\n                                <tr>\n                                    <td>\n                                        <img alt="AOSC Logo" class="logo"\n                                            width="40" height="40" src="https://aosc.io/img/aosc.png"\n                                            style="height: 40px; width: 40px;" />\n                                    </td>\n                                    <td style="vertical-align: bottom;"><h1 class="page-title">/Paste</h1></td>\n                                </tr>\n                            </tbody>\n                        </table>\n                    </a>\n\t\t\t\t</div>\n\t\t<ul class="column is-two-thirds" style="word-break: keep-all;">\n                    \n                    <li><a href="https://aosc.io/news">News</a>\n                    </li><li><a href="https://aosc.io/people">People</a>\n                    </li><li><a href="https://packages.aosc.io">Packages</a>\n                    </li><li><a href="https://wiki.aosc.io">Wiki</a>\n                    </li><li><a href="https://aosc.io/about">About</a>\n                    </li><li><a href="https://aosc.io/downloads">Downloads</a>\n                    </li><li><a href="https://aosc.io/repo">Mirrors</a>\n                    </li><li><a href="https://github.com/AOSC-Dev/">Git</a>\n                    </li><li><a href="https://aosc.io/mail">Mail</a>\n                    </li><li><a href="https://paste.aosc.io/">Pastebin</a>\n                    </li>\n\t\t</ul>\n\t\t\t</div>\n\t\t</nav>\n\t\t<hr class="hr-nav" />\n\n<div class="pastebin">\n'
-template_tail = '</div>\n\t\t\t<hr />\n\t\t\t<div class="center footer">\n\t\t\t\t<span>Copyleft 2011 — 2020, Members of the Community <!--| &nbsp; <a href="/lingua">Site Language</a>--></span>\n\t\t\t</div>\n\t\t</div>\n\t</body>\n</html>\n'
+template_tail = '</div>\n\t\t\t<hr />\n\t\t\t<div class="center footer">\n\t\t\t\t<span>Copyleft 2011 — 2022, Members of the Community <!--| &nbsp; <a href="/lingua">Site Language</a>--></span>\n\t\t\t</div>\n\t\t</div>\n\t</body>\n</html>\n'
 
 def printPaste(resp,rid=None):
     print('Content-Type: text/html; charset=UTF-8\n')
@@ -28,14 +28,6 @@ def printPaste(resp,rid=None):
         print('\t<h2>Deactivate Paste</h2>')
         print('\t<p>Are you sure that you want to deactivate this paste?</p>')
         print('\t<a class="button" href="https://paste.aosc.io/deactivate-confirm/'+resp['paste_id_repr']+'/'+rid+'"><button type="button">Yes</button></a><a class="button" href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'"><button type="button" >No</button></a>\n</div>')
-    if 'deactivation_token' in resp:
-        print('<div id="deactivate">')
-        print('\t<h2>Deactivation Key</h2>')
-        print('\t<p>The paste deactivation URL is shown below. Make sure to keep it somewhere safe; this is the only time you\'ll see it!</p>')
-        print('\t<p><a href="https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'">https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'</a></p>')
-        print('\t<h2>Paste URL</h2>')
-        print('\t<a href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'">https://paste.aosc.io/paste/'+resp['paste_id_repr']+'</a>')
-        print('</div>')
     if 'attachments' in resp and resp['attachments']:
         print('<div id="attach">')
         print('\t<h2>Attachments</h2>')
@@ -62,6 +54,13 @@ def printPaste(resp,rid=None):
         print(item,resp[item],sep='\t')
     print('</textarea>')
     if 'deactivation_token' in resp:
+        print('<div id="deactivate">')
+        print('\t<h2>Deactivation Key</h2>')
+        print('\t<p>The paste deactivation URL is shown below. Make sure to keep it somewhere safe; this is the only time you\'ll see it!</p>')
+        print('\t<p><a href="https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'">https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token']+'</a></p>')
+        print('\t<h2>Paste URL</h2>')
+        print('\t<a href="https://paste.aosc.io/paste/'+resp['paste_id_repr']+'">https://paste.aosc.io/paste/'+resp['paste_id_repr']+'</a>')
+        print('</div>')
         print('<!-- FOR CLI Users:')
         print('Deactivation Page: https://paste.aosc.io/deactivate/'+resp['paste_id_repr']+'/'+resp['deactivation_token'])
         print('Paste URL: https://paste.aosc.io/paste/'+resp['paste_id_repr'])
